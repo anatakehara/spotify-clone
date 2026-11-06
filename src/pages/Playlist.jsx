@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom"
 import { playlists } from "../data/playlists"
 import { tracks } from "../data/tracks"
+import { usePlayer } from "../context/PlayerContext"
 
 function Playlist() {
   const { id } = useParams()
+  const { playTracks, currentTrack } = usePlayer()
   const playlist = playlists.find((item) => item.id === Number(id))
 
   if (!playlist) {
@@ -33,7 +35,8 @@ function Playlist() {
         {playlistTracks.map((track, index) => (
           <li
             key={track.id}
-            className="flex items-center gap-4 rounded-md px-4 py-2 hover:bg-[#282828]"
+            onClick={() => playTracks(playlistTracks, index)}
+            className="flex cursor-pointer items-center gap-4 rounded-md px-4 py-2 hover:bg-[#282828]"
           >
             <span className="w-6 text-gray-400">{index + 1}</span>
             <img
@@ -42,7 +45,13 @@ function Playlist() {
               className="h-10 w-10 rounded object-cover"
             />
             <div className="flex-1">
-              <p className="font-semibold">{track.title}</p>
+              <p
+                className={`font-semibold ${
+                  currentTrack?.id === track.id ? "text-[#1DB954]" : ""
+                }`}
+              >
+                {track.title}
+              </p>
               <p className="text-sm text-gray-400">{track.artist}</p>
             </div>
             <span className="text-sm text-gray-400">{track.duration}</span>
