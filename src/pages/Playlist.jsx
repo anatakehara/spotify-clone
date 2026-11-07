@@ -2,10 +2,11 @@ import { useParams } from "react-router-dom"
 import { playlists } from "../data/playlists"
 import { tracks } from "../data/tracks"
 import { usePlayer } from "../context/PlayerContext"
+import TrackRow from "../components/TrackRow"
 
 function Playlist() {
   const { id } = useParams()
-  const { playTracks, currentTrack } = usePlayer()
+  const { playTracks } = usePlayer()
   const playlist = playlists.find((item) => item.id === Number(id))
 
   if (!playlist) {
@@ -33,29 +34,12 @@ function Playlist() {
 
       <ul className="flex flex-col">
         {playlistTracks.map((track, index) => (
-          <li
+          <TrackRow
             key={track.id}
-            onClick={() => playTracks(playlistTracks, index)}
-            className="flex cursor-pointer items-center gap-4 rounded-md px-4 py-2 hover:bg-[#282828]"
-          >
-            <span className="w-6 text-gray-400">{index + 1}</span>
-            <img
-              src={track.cover}
-              alt={track.title}
-              className="h-10 w-10 rounded object-cover"
-            />
-            <div className="flex-1">
-              <p
-                className={`font-semibold ${
-                  currentTrack?.id === track.id ? "text-[#1DB954]" : ""
-                }`}
-              >
-                {track.title}
-              </p>
-              <p className="text-sm text-gray-400">{track.artist}</p>
-            </div>
-            <span className="text-sm text-gray-400">{track.duration}</span>
-          </li>
+            track={track}
+            index={index}
+            onPlay={() => playTracks(playlistTracks, index)}
+          />
         ))}
       </ul>
     </section>
