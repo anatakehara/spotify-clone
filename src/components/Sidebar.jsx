@@ -22,7 +22,12 @@ function Sidebar() {
       </nav>
 
       <div className="flex-1 rounded-lg bg-[#121212] p-4">
-        <h2 className="font-semibold text-gray-300">Your Library</h2>
+        <div className="flex-1 rounded-lg bg-[#121212] p-4">
+          <h2 className="mb-4 font-semibold text-gray-300">Your Library</h2>
+          <NavLink to="/liked" className={linkClass}>
+            ♥ Liked Songs
+          </NavLink>
+        </div>
       </div>
     </aside>
   )

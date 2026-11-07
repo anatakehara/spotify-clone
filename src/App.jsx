@@ -4,6 +4,7 @@ import Player from "./components/Player"
 import Home from "./pages/Home"
 import Search from "./pages/Search"
 import Playlist from "./pages/Playlist"
+import LikedSongs from "./pages/LikedSongs"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/playlist/:id" element={<Playlist />} />
+            <Route path="/liked" element={<LikedSongs />} />
           </Routes>
         </main>
       </div>

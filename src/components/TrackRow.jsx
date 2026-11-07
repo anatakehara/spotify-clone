@@ -1,4 +1,5 @@
 import { usePlayer } from "../context/PlayerContext"
+import LikeButton from "./LikeButton"
 
 function TrackRow({ track, index, onPlay }) {
   const { currentTrack } = usePlayer()
@@ -25,6 +26,7 @@ function TrackRow({ track, index, onPlay }) {
         </p>
         <p className="truncate text-sm text-gray-400">{track.artist}</p>
       </div>
+      <LikeButton trackId={track.id} />
       <span className="text-sm text-gray-400">{track.duration}</span>
     </li>
   )
