@@ -15,7 +15,7 @@ export const tracks = [
     album: "Sunset Dreams",
     cover: "https://picsum.photos/seed/track2/300",
     duration: "2:58",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const tracks = [
     album: "Out There",
     cover: "https://picsum.photos/seed/track3/300",
     duration: "4:10",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ export const tracks = [
     album: "Sunset Dreams",
     cover: "https://picsum.photos/seed/track4/300",
     duration: "3:45",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
   },
   {
     id: 5,
@@ -42,7 +42,7 @@ export const tracks = [
     album: "City Lights",
     cover: "https://picsum.photos/seed/track5/300",
     duration: "3:12",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",audioUrl: "",
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
   },
   {
     id: 6,
@@ -51,6 +51,6 @@ export const tracks = [
     album: "Out There",
     cover: "https://picsum.photos/seed/track6/300",
     duration: "3:33",
-    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
   },
 ]
