@@ -1,16 +1,18 @@
-import { useParams } from "react-router-dom"
-import { Play, Pause, Shuffle, Music } from "lucide-react"
+import { useParams, useNavigate } from "react-router-dom"
+import { Play, Pause, Shuffle, Music, Trash2 } from "lucide-react"
 import TrackRow from "../components/TrackRow"
 import { usePlayer } from "../context/PlayerContext"
 import { usePlaylists } from "../context/PlaylistsContext"
 import { tracks } from "../data/tracks"
 import TrackListHeader from "../components/TrackListHeader"
+import EditableTitle from "../components/EditableTitle"
 
 function Playlist() {
   const { id } = useParams()
   const { playTracks, playShuffled, currentTrack, playing, togglePlay } = usePlayer()
 
-  const { getPlaylistById } = usePlaylists()
+  const { getPlaylistById, renamePlaylist, deletePlaylist } = usePlaylists()
+  const navigate = useNavigate()
   const playlist = getPlaylistById(id)
 
   if (!playlist) {
@@ -33,6 +35,13 @@ function Playlist() {
   }
 
   const isEmpty = playlistTracks.length === 0
+
+  const handleDelete = () => {
+    if (window.confirm(`Delete "${playlist.name}"?`)) {
+      deletePlaylist(playlist.id)
+      navigate("/")
+    }
+  }
 
   return (
     <section className="relative">
@@ -58,7 +67,15 @@ function Playlist() {
           )}
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold uppercase">Playlist</p>
-            <h1 className="text-3xl font-bold md:text-7xl">{playlist.name}</h1>
+            {playlist.isUser ? (
+              <EditableTitle
+                value={playlist.name}
+                onSave={(name) => renamePlaylist(playlist.id, name)}
+                className="text-3xl font-bold md:text-7xl"
+              />
+            ) : (
+              <h1 className="text-3xl font-bold md:text-7xl">{playlist.name}</h1>
+            )}
             <p className="mt-2 text-gray-300">{playlist.description}</p>
             <p className="mt-1 text-sm text-gray-300">
               {playlistTracks.length} songs
@@ -87,6 +104,17 @@ function Playlist() {
           >
             <Shuffle size={28} />
           </button>
+
+          {playlist.isUser && (
+            <button
+              onClick={handleDelete}
+              className="text-gray-300 transition hover:scale-105 hover:text-white"
+              aria-label="Delete playlist"
+              title="Delete playlist"
+            >
+              <Trash2 size={26} />
+            </button>
+          )}
         </div>
 
         {isEmpty ? (
