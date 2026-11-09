@@ -3,6 +3,7 @@ import TrackRow from "../components/TrackRow"
 import { usePlayer } from "../context/PlayerContext"
 import { useDebounce } from "../hooks/useDebounce"
 import { tracks } from "../data/tracks"
+import TrackListHeader from "../components/TrackListHeader"
 
 function Search() {
   const [query, setQuery] = useState("")
@@ -41,16 +42,19 @@ function Search() {
       )}
 
       {results.length > 0 && (
-        <ul className="flex flex-col">
+        <>
+          <TrackListHeader />
+          <ul className="flex flex-col">
           {results.map((track, index) => (
             <TrackRow
               key={track.id}
-              track={track}
-              index={index}
-              onPlay={() => playTracks(results, index)}
-            />
+                track={track}
+                index={index}
+                onPlay={() => playTracks(results, index)}
+              />
           ))}
-        </ul>
+          </ul>
+        </>
       )}
     </section>
   )

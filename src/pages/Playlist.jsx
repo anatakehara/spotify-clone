@@ -4,6 +4,7 @@ import TrackRow from "../components/TrackRow"
 import { usePlayer } from "../context/PlayerContext"
 import { playlists } from "../data/playlists"
 import { tracks } from "../data/tracks"
+import TrackListHeader from "../components/TrackListHeader"
 
 function Playlist() {
   const { id } = useParams()
@@ -79,6 +80,7 @@ function Playlist() {
           </button>
         </div>
 
+        <TrackListHeader />
         <ul className="flex flex-col">
           {playlistTracks.map((track, index) => (
             <TrackRow

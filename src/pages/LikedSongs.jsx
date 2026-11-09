@@ -3,6 +3,7 @@ import { useLikes } from "../context/LikesContext"
 import { usePlayer } from "../context/PlayerContext"
 import { tracks } from "../data/tracks"
 import { Heart } from "lucide-react"
+import TrackListHeader from "../components/TrackListHeader"
 
 function LikedSongs() {
   const { likedIds } = useLikes()
@@ -28,16 +29,19 @@ function LikedSongs() {
           Songs you like will appear here. Tap the ♡ on any track.
         </p>
       ) : (
-        <ul className="flex flex-col">
-          {likedTracks.map((track, index) => (
-            <TrackRow
-              key={track.id}
-              track={track}
-              index={index}
-              onPlay={() => playTracks(likedTracks, index)}
-            />
-          ))}
-        </ul>
+        <>
+          <TrackListHeader />
+          <ul className="flex flex-col">
+            {likedTracks.map((track, index) => (
+              <TrackRow
+                key={track.id}
+                track={track}
+                index={index}
+                onPlay={() => playTracks(likedTracks, index)}
+              />
+            ))}
+          </ul>
+        </>
       )}
     </section>
   )
