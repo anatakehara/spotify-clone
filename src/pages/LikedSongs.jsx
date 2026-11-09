@@ -2,6 +2,7 @@ import TrackRow from "../components/TrackRow"
 import { useLikes } from "../context/LikesContext"
 import { usePlayer } from "../context/PlayerContext"
 import { tracks } from "../data/tracks"
+import { Heart } from "lucide-react"
 
 function LikedSongs() {
   const { likedIds } = useLikes()
@@ -11,13 +12,13 @@ function LikedSongs() {
 
   return (
     <section>
-      <div className="mb-8 flex items-end gap-6">
-        <div className="flex h-48 w-48 items-center justify-center rounded-md bg-gradient-to-br from-indigo-600 to-blue-300 text-7xl shadow-2xl">
-          ♥
+      <div className="mb-8 flex flex-col items-center gap-4 md:flex-row md:items-end md:gap-6">
+        <div className="flex h-40 w-40 items-center justify-center rounded-md bg-gradient-to-br from-indigo-600 to-blue-300 shadow-2xl md:h-48 md:w-48">
+          <Heart size={72} fill="white" className="text-white" />
         </div>
         <div>
           <p className="text-sm font-semibold uppercase">Playlist</p>
-          <h1 className="text-5xl font-bold">Liked Songs</h1>
+          <h1 className="text-3xl font-bold md:text-5xl">Liked Songs</h1>
           <p className="mt-2 text-gray-400">{likedTracks.length} songs</p>
         </div>
       </div>

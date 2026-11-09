@@ -1,5 +1,6 @@
 import { usePlayer } from "../context/PlayerContext"
 import { formatTime } from "../utils/formatTime"
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react"
 
 function Player() {
   const {
@@ -16,8 +17,8 @@ function Player() {
   } = usePlayer()
 
   return (
-    <footer className="flex h-24 items-center justify-between bg-black px-4">
-      <div className="flex w-1/3 items-center gap-3 text-white">
+    <footer className="flex h-24 items-center justify-between gap-3 bg-black px-3 md:px-4">
+      <div className="flex w-1/2 items-center gap-3 text-white md:w-1/3">
         {currentTrack ? (
           <>
             <img
@@ -35,29 +36,43 @@ function Player() {
             </div>
           </>
         ) : (
-          <p className="text-sm text-gray-400">Nothing playing</p>
+          <p className="truncate text-sm text-gray-400">Nothing playing</p>
         )}
       </div>
 
-      <div className="flex w-1/3 flex-col items-center gap-2 text-white">
-        <div className="flex items-center gap-6">
-          <button onClick={previous} className="hover:scale-105" aria-label="Previous">
-            ⏮
+      <div className="flex w-1/2 flex-col items-center gap-2 text-white md:w-1/3">
+        <div className="flex items-center gap-4 md:gap-6">
+          <button
+            onClick={previous}
+            className="text-gray-300 hover:text-white"
+            aria-label="Previous"
+          >
+            <SkipBack size={20} fill="currentColor" />
           </button>
+
           <button
             onClick={togglePlay}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black hover:scale-105"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black hover:scale-105 md:h-10 md:w-10"
             aria-label={playing ? "Pause" : "Play"}
           >
-            {playing ? "⏸" : "▶"}
+            {playing ? (
+              <Pause size={18} fill="currentColor" />
+            ) : (
+              <Play size={18} fill="currentColor" className="ml-0.5" />
+            )}
           </button>
-          <button onClick={next} className="hover:scale-105" aria-label="Next">
-            ⏭
+
+          <button
+            onClick={next}
+            className="text-gray-300 hover:text-white"
+            aria-label="Next"
+          >
+            <SkipForward size={20} fill="currentColor" />
           </button>
         </div>
 
         <div className="flex w-full items-center gap-2 text-xs text-gray-400">
-          <span className="w-10 text-right">{formatTime(currentTime)}</span>
+          <span className="w-9 shrink-0 text-right">{formatTime(currentTime)}</span>
           <input
             type="range"
             min={0}
@@ -65,15 +80,15 @@ function Player() {
             step={0.1}
             value={currentTime}
             onChange={(e) => seek(Number(e.target.value))}
-            className="h-1 flex-1 cursor-pointer accent-[#1DB954]"
+            className="h-1 min-w-0 flex-1 cursor-pointer accent-[#1DB954]"
             aria-label="Progress"
           />
-          <span className="w-10">{formatTime(duration)}</span>
+          <span className="w-9 shrink-0">{formatTime(duration)}</span>
         </div>
       </div>
 
-      <div className="flex w-1/3 items-center justify-end gap-2 text-white">
-        <span aria-hidden="true">{volume === 0 ? "🔇" : "🔊"}</span>
+      <div className="hidden w-1/3 items-center justify-end gap-2 text-white md:flex">
+        {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
         <input
           type="range"
           min={0}

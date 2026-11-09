@@ -1,3 +1,4 @@
+import { Heart } from "lucide-react"
 import { useLikes } from "../context/LikesContext"
 
 function LikeButton({ trackId, className = "" }) {
@@ -12,13 +13,13 @@ function LikeButton({ trackId, className = "" }) {
   return (
     <button
       onClick={handleClick}
-      className={`text-lg transition hover:scale-110 ${
+      className={`transition hover:scale-110 ${
         liked ? "text-[#1DB954]" : "text-gray-400 hover:text-white"
       } ${className}`}
       aria-label={liked ? "Remove from Liked Songs" : "Add to Liked Songs"}
       aria-pressed={liked}
     >
-      {liked ? "♥" : "♡"}
+      <Heart size={18} fill={liked ? "currentColor" : "none"} />
     </button>
   )
 }

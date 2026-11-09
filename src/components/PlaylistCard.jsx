@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { usePlayer } from "../context/PlayerContext"
 import { tracks } from "../data/tracks"
+import { Play } from "lucide-react"
 
 function PlaylistCard({ playlist }) {
   const { playTracks } = usePlayer()
@@ -29,10 +30,10 @@ function PlaylistCard({ playlist }) {
 
         <button
           onClick={handlePlay}
-          className="absolute right-2 bottom-2 flex h-12 w-12 translate-y-2 items-center justify-center rounded-full bg-[#1DB954] text-xl text-black opacity-0 shadow-xl transition-all group-hover:translate-y-0 group-hover:opacity-100 hover:scale-105"
+          className="absolute right-2 bottom-2 flex h-12 w-12 translate-y-2 items-center justify-center rounded-full bg-[#1DB954] text-black opacity-0 shadow-xl transition-all group-hover:translate-y-0 group-hover:opacity-100 hover:scale-105"
           aria-label={`Play ${playlist.name}`}
         >
-          ▶
+          <Play size={22} fill="currentColor" className="ml-0.5" />
         </button>
       </div>
 

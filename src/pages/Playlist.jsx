@@ -19,15 +19,15 @@ function Playlist() {
 
   return (
     <section>
-      <div className="mb-8 flex items-end gap-6">
+      <div className="mb-8 flex flex-col items-center gap-4 md:flex-row md:items-end md:gap-6">
         <img
           src={playlist.cover}
           alt={playlist.name}
-          className="h-48 w-48 rounded-md object-cover shadow-2xl"
+          className="h-40 w-40 rounded-md object-cover shadow-2xl md:h-48 md:w-48"
         />
         <div>
           <p className="text-sm font-semibold uppercase">Playlist</p>
-          <h1 className="text-5xl font-bold">{playlist.name}</h1>
+          <h1 className="text-3xl font-bold md:text-5xl">{playlist.name}</h1>
           <p className="mt-2 text-gray-400">{playlist.description}</p>
         </div>
       </div>
