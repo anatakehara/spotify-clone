@@ -1,6 +1,7 @@
 import { usePlayer } from "../context/PlayerContext"
 import { formatTime } from "../utils/formatTime"
 import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react"
+import Slider from "./Slider"
 
 function Player() {
   const {
@@ -73,15 +74,13 @@ function Player() {
 
         <div className="flex w-full items-center gap-2 text-xs text-gray-400">
           <span className="w-9 shrink-0 text-right">{formatTime(currentTime)}</span>
-          <input
-            type="range"
-            min={0}
-            max={duration || 0}
-            step={0.1}
+          <Slider
             value={currentTime}
-            onChange={(e) => seek(Number(e.target.value))}
-            className="h-1 min-w-0 flex-1 cursor-pointer accent-[#1DB954]"
-            aria-label="Progress"
+            max={duration}
+            step={0.1}
+            onChange={seek}
+            label="Progress"
+            className="min-w-0 flex-1"
           />
           <span className="w-9 shrink-0">{formatTime(duration)}</span>
         </div>
@@ -89,15 +88,13 @@ function Player() {
 
       <div className="hidden w-1/3 items-center justify-end gap-2 text-white md:flex">
         {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
-        <input
-          type="range"
-          min={0}
+        <Slider
+          value={volume}
           max={1}
           step={0.01}
-          value={volume}
-          onChange={(e) => setVolume(Number(e.target.value))}
-          className="h-1 w-28 cursor-pointer accent-[#1DB954]"
-          aria-label="Volume"
+          onChange={setVolume}
+          label="Volume"
+          className="w-28"
         />
       </div>
     </footer>
