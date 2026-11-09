@@ -170,6 +170,22 @@ export function PlayerProvider({ children }) {
     setVolumeState(value)
   }
 
+  const playFromQueue = (index) => {
+    if (index >= 0 && index < queue.length) {
+      setCurrentIndex(index)
+    }
+  }
+
+  const removeFromQueue = (index) => {
+    if (index <= currentIndex) return
+
+    const removed = queue[index]
+    setQueue((current) => current.filter((_, i) => i !== index))
+    originalQueueRef.current = originalQueueRef.current.filter(
+      (track) => track.id !== removed.id
+    )
+  }
+
   useEffect(() => {
     endedRef.current = () => {
       if (repeat === "one") {
@@ -190,6 +206,7 @@ export function PlayerProvider({ children }) {
     volume,
     shuffle,
     repeat,
+    currentIndex,
     playTracks,
     playShuffled,
     togglePlay,
@@ -199,6 +216,8 @@ export function PlayerProvider({ children }) {
     setVolume,
     toggleShuffle,
     cycleRepeat,
+    playFromQueue,
+    removeFromQueue,
   }
 
   return (

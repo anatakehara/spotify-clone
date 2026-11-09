@@ -8,13 +8,14 @@ import {
   Repeat1,
   Volume2,
   VolumeX,
+  ListMusic 
 } from "lucide-react"
 import { usePlayer } from "../context/PlayerContext"
 import { formatTime } from "../utils/formatTime"
 import LikeButton from "./LikeButton"
 import Slider from "./Slider"
 
-function Player() {
+function Player({ queueOpen, onToggleQueue }) {
   const {
     currentTrack,
     playing,
@@ -136,6 +137,17 @@ function Player() {
       </div>
 
       <div className="hidden w-1/3 items-center justify-end gap-2 text-white md:flex">
+        <button
+          onClick={onToggleQueue}
+          className={`transition hover:scale-105 ${
+            queueOpen ? "text-[#1DB954]" : "text-gray-400 hover:text-white"
+          }`}
+          aria-label="Queue"
+          aria-pressed={queueOpen}
+        >
+          <ListMusic size={20} />
+        </button>
+        
         {volume === 0 ? <VolumeX size={20} /> : <Volume2 size={20} />}
         <Slider
           value={volume}
