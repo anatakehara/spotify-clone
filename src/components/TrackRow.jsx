@@ -2,8 +2,9 @@ import { Play } from "lucide-react"
 import { usePlayer } from "../context/PlayerContext"
 import Equalizer from "./Equalizer"
 import LikeButton from "./LikeButton"
+import TrackMenu from "./TrackMenu"
 
-function TrackRow({ track, index, onPlay }) {
+function TrackRow({ track, index, onPlay, playlistId }) {
   const { currentTrack, playing } = usePlayer()
   const isCurrent = currentTrack?.id === track.id
 
@@ -65,6 +66,7 @@ function TrackRow({ track, index, onPlay }) {
         <span className="w-10 text-right text-sm text-gray-400">
           {track.duration}
         </span>
+        <TrackMenu trackId={track.id} currentPlaylistId={playlistId} />
       </div>
     </li>
   )

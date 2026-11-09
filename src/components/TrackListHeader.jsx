@@ -6,7 +6,7 @@ function TrackListHeader() {
       <span className="text-center">#</span>
       <span>Title</span>
       <span className="hidden md:block">Album</span>
-      <span className="flex w-[4.75rem] justify-end pr-1">
+      <span className="flex w-[7rem] justify-end pr-8">
         <Clock size={16} />
       </span>
     </div>

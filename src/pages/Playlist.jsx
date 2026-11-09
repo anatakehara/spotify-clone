@@ -119,7 +119,7 @@ function Playlist() {
 
         {isEmpty ? (
           <p className="text-gray-400">
-            This playlist is empty. You'll be able to add songs soon.
+            This playlist is empty. Use the ... menu on any song to add it here.
           </p>
         ) : (
           <>
@@ -130,6 +130,7 @@ function Playlist() {
                   key={track.id}
                   track={track}
                   index={index}
+                  playlistId={playlist.id}
                   onPlay={() => playTracks(playlistTracks, index)}
                 />
               ))}
