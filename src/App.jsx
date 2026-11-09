@@ -8,9 +8,11 @@ import LikedSongs from "./pages/LikedSongs"
 import MobileNav from "./components/MobileNav"
 import { useState } from "react"
 import QueuePanel from "./components/QueuePanel"
+import { useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts"
 
 function App() {
   const [queueOpen, setQueueOpen] = useState(false)
+  useKeyboardShortcuts()
 
   return (
     <div className="flex h-screen flex-col bg-black text-white">

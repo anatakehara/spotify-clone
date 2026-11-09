@@ -2,6 +2,24 @@ import { createContext, useContext, useEffect, useRef, useState } from "react"
 
 const PlayerContext = createContext(null)
 
+const SETTINGS_KEY = "spotify-clone:player-settings"
+
+function loadSettings() {
+  try {
+    const saved = localStorage.getItem(SETTINGS_KEY)
+    const parsed = saved ? JSON.parse(saved) : {}
+    return {
+      volume: typeof parsed.volume === "number" ? parsed.volume : 1,
+      shuffle: parsed.shuffle === true,
+      repeat: ["off", "all", "one"].includes(parsed.repeat)
+        ? parsed.repeat
+        : "off",
+    }
+  } catch {
+    return { volume: 1, shuffle: false, repeat: "off" }
+  }
+}
+
 function shuffleArray(list) {
   const result = [...list]
   for (let i = result.length - 1; i > 0; i--) {
@@ -16,14 +34,15 @@ export function PlayerProvider({ children }) {
   const endedRef = useRef(() => {})
   const originalQueueRef = useRef([])
 
+  const [initial] = useState(loadSettings)
   const [queue, setQueue] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
-  const [volume, setVolumeState] = useState(1)
-  const [shuffle, setShuffle] = useState(false)
-  const [repeat, setRepeat] = useState("off") // "off" | "all" | "one"
+  const [volume, setVolumeState] = useState(initial.volume)
+  const [shuffle, setShuffle] = useState(initial.shuffle)
+  const [repeat, setRepeat] = useState(initial.repeat)
 
   const currentTrack = currentIndex >= 0 ? queue[currentIndex] : null
 
@@ -195,6 +214,20 @@ export function PlayerProvider({ children }) {
       }
     }
   })
+
+  useEffect(() => {
+    audioRef.current.volume = initial.volume
+  }, [initial.volume])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        SETTINGS_KEY,
+        JSON.stringify({ volume, shuffle, repeat })
+      )
+    } catch {
+    }
+  }, [volume, shuffle, repeat])
 
   const value = {
     audioRef,
