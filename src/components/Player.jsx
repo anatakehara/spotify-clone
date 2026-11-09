@@ -1,6 +1,17 @@
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Shuffle,
+  Repeat,
+  Repeat1,
+  Volume2,
+  VolumeX,
+} from "lucide-react"
 import { usePlayer } from "../context/PlayerContext"
 import { formatTime } from "../utils/formatTime"
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react"
+import LikeButton from "./LikeButton"
 import Slider from "./Slider"
 
 function Player() {
@@ -10,12 +21,27 @@ function Player() {
     currentTime,
     duration,
     volume,
+    shuffle,
+    repeat,
     togglePlay,
     next,
     previous,
     seek,
     setVolume,
+    toggleShuffle,
+    cycleRepeat,
   } = usePlayer()
+
+  const RepeatIcon = repeat === "one" ? Repeat1 : Repeat
+
+  const toggleClass = (active) =>
+    `relative hidden transition hover:scale-105 md:block ${
+      active ? "text-[#1DB954]" : "text-gray-400 hover:text-white"
+    }`
+
+  const activeDot = (
+    <span className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[#1DB954]" />
+  )
 
   return (
     <footer className="flex h-24 items-center justify-between gap-3 bg-black px-3 md:px-4">
@@ -25,7 +51,7 @@ function Player() {
             <img
               src={currentTrack.cover}
               alt={currentTrack.title}
-              className="h-14 w-14 rounded object-cover"
+              className="h-14 w-14 shrink-0 rounded object-cover"
             />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold">
@@ -35,6 +61,7 @@ function Player() {
                 {currentTrack.artist}
               </p>
             </div>
+            <LikeButton trackId={currentTrack.id} className="shrink-0" />
           </>
         ) : (
           <p className="truncate text-sm text-gray-400">Nothing playing</p>
@@ -43,6 +70,16 @@ function Player() {
 
       <div className="flex w-1/2 flex-col items-center gap-2 text-white md:w-1/3">
         <div className="flex items-center gap-4 md:gap-6">
+          <button
+            onClick={toggleShuffle}
+            className={toggleClass(shuffle)}
+            aria-label="Shuffle"
+            aria-pressed={shuffle}
+          >
+            <Shuffle size={18} />
+            {shuffle && activeDot}
+          </button>
+
           <button
             onClick={previous}
             className="text-gray-300 hover:text-white"
@@ -70,10 +107,22 @@ function Player() {
           >
             <SkipForward size={20} fill="currentColor" />
           </button>
+
+          <button
+            onClick={cycleRepeat}
+            className={toggleClass(repeat !== "off")}
+            aria-label={`Repeat: ${repeat}`}
+            aria-pressed={repeat !== "off"}
+          >
+            <RepeatIcon size={18} />
+            {repeat !== "off" && activeDot}
+          </button>
         </div>
 
         <div className="flex w-full items-center gap-2 text-xs text-gray-400">
-          <span className="w-9 shrink-0 text-right">{formatTime(currentTime)}</span>
+          <span className="w-9 shrink-0 text-right">
+            {formatTime(currentTime)}
+          </span>
           <Slider
             value={currentTime}
             max={duration}
