@@ -86,6 +86,18 @@ export function PlayerProvider({ children }) {
 
   nextRef.current = next
 
+  const playShuffled = (tracks) => {
+  const shuffled = [...tracks]
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+
+  setQueue(shuffled)
+  setCurrentIndex(0)
+}
+
   const value = {
     audioRef,
     queue,
@@ -95,6 +107,7 @@ export function PlayerProvider({ children }) {
     duration,
     volume,
     playTracks,
+    playShuffled,
     togglePlay,
     next,
     previous,

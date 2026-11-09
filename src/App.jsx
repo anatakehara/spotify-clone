@@ -13,7 +13,7 @@ function App() {
       <div className="flex flex-1 gap-2 overflow-hidden p-2">
         <Sidebar />
 
-        <main className="flex-1 overflow-y-auto rounded-lg bg-gradient-to-b from-[#2a2a2a] via-[#121212] via-[320px] to-[#121212] p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto rounded-lg bg-[#121212] p-4 md:p-6">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
