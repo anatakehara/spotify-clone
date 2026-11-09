@@ -4,6 +4,8 @@ import { usePlayer } from "../context/PlayerContext"
 import { useDebounce } from "../hooks/useDebounce"
 import { tracks } from "../data/tracks"
 import TrackListHeader from "../components/TrackListHeader"
+import CategoryCard from "../components/CategoryCard"
+import { categories } from "../data/categories"
 
 function Search() {
   const [query, setQuery] = useState("")
@@ -17,7 +19,8 @@ function Search() {
         (track) =>
           track.title.toLowerCase().includes(normalized) ||
           track.artist.toLowerCase().includes(normalized) ||
-          track.album.toLowerCase().includes(normalized)
+          track.album.toLowerCase().includes(normalized) ||
+          track.genre.toLowerCase().includes(normalized)
       )
     : []
 
@@ -34,7 +37,18 @@ function Search() {
       />
 
       {!normalized && (
-        <p className="text-gray-400">Search for songs, artists or albums.</p>
+        <>
+          <h2 className="mb-4 text-2xl font-bold">Browse all</h2>
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                category={category}
+                onClick={() => setQuery(category.name)}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       {normalized && results.length === 0 && (
