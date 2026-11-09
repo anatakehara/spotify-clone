@@ -1,8 +1,11 @@
-import { NavLink } from "react-router-dom"
-import { Home, Search, Library, Heart } from "lucide-react"
-import { playlists } from "../data/playlists"
+import { NavLink, useNavigate } from "react-router-dom"
+import { Home, Search, Library, Heart, Plus, Music } from "lucide-react"
+import { usePlaylists } from "../context/PlaylistsContext"
 
 function Sidebar() {
+  const { allPlaylists, createPlaylist } = usePlaylists()
+  const navigate = useNavigate()
+
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 ${
       isActive ? "text-white" : "text-gray-300 hover:text-white"
@@ -12,6 +15,11 @@ function Sidebar() {
     `flex items-center gap-3 rounded-md p-2 transition hover:bg-white/10 ${
       isActive ? "bg-white/10" : ""
     }`
+
+  const handleCreate = () => {
+    const newPlaylist = createPlaylist("")
+    navigate(`/playlist/${newPlaylist.id}`)
+  }
 
   return (
     <aside className="hidden w-72 flex-col gap-2 rounded-lg bg-black p-2 md:flex">
@@ -33,10 +41,20 @@ function Sidebar() {
       </nav>
 
       <div className="flex min-h-0 flex-1 flex-col rounded-lg bg-[#121212] p-2">
-        <h2 className="mb-2 flex items-center gap-3 px-2 py-2 font-semibold text-gray-300">
-          <Library size={22} />
-          Your Library
-        </h2>
+        <div className="mb-2 flex items-center justify-between px-2 py-2">
+          <h2 className="flex items-center gap-3 font-semibold text-gray-300">
+            <Library size={22} />
+            Your Library
+          </h2>
+          <button
+            onClick={handleCreate}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-gray-300 transition hover:bg-white/10 hover:text-white"
+            aria-label="Create playlist"
+            title="Create playlist"
+          >
+            <Plus size={20} />
+          </button>
+        </div>
 
         <ul className="flex flex-col gap-1 overflow-y-auto">
           <li>
@@ -51,17 +69,23 @@ function Sidebar() {
             </NavLink>
           </li>
 
-          {playlists.map((playlist) => (
+          {allPlaylists.map((playlist) => (
             <li key={playlist.id}>
               <NavLink
                 to={`/playlist/${playlist.id}`}
                 className={libraryItemClass}
               >
-                <img
-                  src={playlist.cover}
-                  alt={playlist.name}
-                  className="h-12 w-12 shrink-0 rounded-md object-cover"
-                />
+                {playlist.cover ? (
+                  <img
+                    src={playlist.cover}
+                    alt={playlist.name}
+                    className="h-12 w-12 shrink-0 rounded-md object-cover"
+                  />
+                ) : (
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-[#282828] text-gray-400">
+                    <Music size={20} />
+                  </div>
+                )}
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-white">
                     {playlist.name}

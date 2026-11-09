@@ -1,17 +1,17 @@
 import { useParams } from "react-router-dom"
-import { Play, Pause, Shuffle } from "lucide-react"
+import { Play, Pause, Shuffle, Music } from "lucide-react"
 import TrackRow from "../components/TrackRow"
 import { usePlayer } from "../context/PlayerContext"
-import { playlists } from "../data/playlists"
+import { usePlaylists } from "../context/PlaylistsContext"
 import { tracks } from "../data/tracks"
 import TrackListHeader from "../components/TrackListHeader"
 
 function Playlist() {
   const { id } = useParams()
-  const { playTracks, playShuffled, currentTrack, playing, togglePlay } =
-    usePlayer()
+  const { playTracks, playShuffled, currentTrack, playing, togglePlay } = usePlayer()
 
-  const playlist = playlists.find((item) => item.id === Number(id))
+  const { getPlaylistById } = usePlaylists()
+  const playlist = getPlaylistById(id)
 
   if (!playlist) {
     return <p className="text-gray-400">Playlist not found.</p>
@@ -32,6 +32,8 @@ function Playlist() {
     }
   }
 
+  const isEmpty = playlistTracks.length === 0
+
   return (
     <section className="relative">
       <div
@@ -43,11 +45,17 @@ function Playlist() {
 
       <div className="relative">
         <div className="mb-6 flex flex-col items-center gap-4 md:flex-row md:items-end md:gap-6">
-          <img
-            src={playlist.cover}
-            alt={playlist.name}
-            className="h-40 w-40 rounded-md object-cover shadow-2xl md:h-56 md:w-56"
-          />
+          {playlist.cover ? (
+            <img
+              src={playlist.cover}
+              alt={playlist.name}
+              className="h-40 w-40 rounded-md object-cover shadow-2xl md:h-56 md:w-56"
+            />
+          ) : (
+            <div className="flex h-40 w-40 items-center justify-center rounded-md bg-[#282828] text-gray-400 shadow-2xl md:h-56 md:w-56">
+              <Music size={64} />
+            </div>
+          )}
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold uppercase">Playlist</p>
             <h1 className="text-3xl font-bold md:text-7xl">{playlist.name}</h1>
@@ -61,6 +69,7 @@ function Playlist() {
         <div className="mb-6 flex items-center gap-6">
           <button
             onClick={handleMainButton}
+            disabled={isEmpty}
             className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1DB954] text-black transition hover:scale-105 hover:bg-[#1ed760]"
             aria-label={isThisPlaylistPlaying ? "Pause" : "Play"}
           >
@@ -80,17 +89,25 @@ function Playlist() {
           </button>
         </div>
 
-        <TrackListHeader />
-        <ul className="flex flex-col">
-          {playlistTracks.map((track, index) => (
-            <TrackRow
-              key={track.id}
-              track={track}
-              index={index}
-              onPlay={() => playTracks(playlistTracks, index)}
-            />
-          ))}
-        </ul>
+        {isEmpty ? (
+          <p className="text-gray-400">
+            This playlist is empty. You'll be able to add songs soon.
+          </p>
+        ) : (
+          <>
+            <TrackListHeader />
+            <ul className="flex flex-col">
+              {playlistTracks.map((track, index) => (
+                <TrackRow
+                  key={track.id}
+                  track={track}
+                  index={index}
+                  onPlay={() => playTracks(playlistTracks, index)}
+                />
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </section>
   )
