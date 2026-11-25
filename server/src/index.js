@@ -4,6 +4,7 @@ import cors from "cors"
 import { connectDB } from "./db.js"
 import authRoutes from "./routes/auth.js"
 import likesRoutes from "./routes/likes.js"
+import playlistsRoutes from "./routes/playlists.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -18,6 +19,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/likes", likesRoutes)
+app.use("/api/playlists", playlistsRoutes)
 
 app.use((err, req, res, next) => {
   console.error(err)
