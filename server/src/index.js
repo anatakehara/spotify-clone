@@ -5,18 +5,25 @@ import { connectDB } from "./db.js"
 import authRoutes from "./routes/auth.js"
 import likesRoutes from "./routes/likes.js"
 import playlistsRoutes from "./routes/playlists.js"
+import helmet from "helmet"
+import { apiLimiter, authLimiter } from "./middleware/rateLimits.js"
 
 const app = express()
 const PORT = process.env.PORT || 4000
 
+app.set("trust proxy", 1)
+
+app.use(helmet())
 app.use(cors({ origin: process.env.CLIENT_URL }))
-app.use(express.json())
+app.use(express.json({ limit: "10kb" }))
+app.use("/api", apiLimiter)
 
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok" })
 })
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth/login", authLimiter)
+app.use("/api/auth/register", authLimiter)
 app.use("/api/auth", authRoutes)
 app.use("/api/likes", likesRoutes)
 app.use("/api/playlists", playlistsRoutes)
