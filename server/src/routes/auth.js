@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs"
 import { z } from "zod"
 import { User } from "../models/User.js"
 import { signToken } from "../utils/token.js"
+import { toPublicUser } from "../utils/publicUser.js"
+import { requireAuth } from "../middleware/auth.js"
 
 const router = Router()
 
@@ -16,15 +18,6 @@ const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(1),
 })
-
-function toPublicUser(user) {
-  return {
-    id: user._id,
-    name: user.name,
-    email: user.email,
-    likedTrackIds: user.likedTrackIds,
-  }
-}
 
 router.post("/register", async (req, res, next) => {
   try {
@@ -84,6 +77,10 @@ router.post("/login", async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.get("/me", requireAuth, (req, res) => {
+  res.json({ user: toPublicUser(req.user) })
 })
 
 export default router
